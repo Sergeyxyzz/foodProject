@@ -133,12 +133,13 @@ window.addEventListener('scroll', showModalByScroll)
 // menu cards
 
 class MenuCard {
-    constructor(src, alt, title, descr, price, parentSelector = '.menu__field .container') {
+    constructor(src, alt, title, descr, price, parentSelector, ...classes) {
         this.src = src
         this.alt = alt
         this.title = title
         this.descr = descr
         this.price = price
+        this.classes = classes
         this.parent = document.querySelector(parentSelector)
         this.transfer = 27
         this.changeToUAH()
@@ -150,8 +151,13 @@ class MenuCard {
 
     render() {
         const element = document.createElement('div')
+        if (this.classes.length === 0) {
+            this.element = 'menu__item'
+            element.classList.add(this.element)
+        } else {
+            this.classes.forEach(it => element.classList.add(it))
+        }
         element.innerHTML = `
-        <div class="menu__item">
             <img src="${this.src}" alt="${this.alt}">
             <h3 class="menu__item-subtitle">${this.title}</h3>
             <div class="menu__item-descr">${this.descr}</div>
@@ -159,8 +165,7 @@ class MenuCard {
             <div class="menu__item-price">
                 <div class="menu__item-cost">Цена:</div>
                 <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
-            </div>
-        </div>`
+            </div>`
         this.parent.append(element)
     }
 }
@@ -169,29 +174,28 @@ new MenuCard(
     'vegy', 
     'Меню "Фитнес"', 
     'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!', 
-    8).render()
+    8,
+    '.menu__field .container',
+    'menu__item').render()
 
 new MenuCard(
     'img/tabs/elite.jpg', 
     'elite', 
     'Меню “Премиум”', 
     'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!', 
-    20).render()
+    20,
+    '.menu__field .container',
+    'menu__item',
+    'big').render()
 
 new MenuCard(
     'img/tabs/post.jpg', 
     'post', 
     'Меню "Постное"', 
     'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.', 
-    18).render()
-
-new MenuCard(
-    'http://sun9-3.userapi.com/s/v1/if1/y72Ov_XZPLyuIeAQsCKjkYj31CV4h3ULfIBf755hFxDLRpqvvyxv0Rcs-RDqK0dOBufGqVX5.jpg?size=200x235&quality=96&crop=0,0,500,588&ava=1', 
-    'я новое меню', 
-    'я новый альт', 
-    'а я его новое описание', 
-    10).render()
-
+    18,
+    '.menu__field .container',
+    'menu__item').render()
 
 
 
